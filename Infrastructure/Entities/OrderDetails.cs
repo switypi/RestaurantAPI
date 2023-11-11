@@ -12,17 +12,19 @@ namespace Infrastructure.Entities
     {
         public OrderDetails()
         {
-            
+
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long OrderDetailId { get; set; }
-        public int MenuId { get; set; }
-        public long OrderId { get; set; }
-        public int quantity { get; set; }
-        public DateTime OrderDate { get; set; }
-        public decimal Amount { get; set; }
-        public  virtual Order CurrentOrder { get; set; }
-        
+        public int? MenuId { get; set; }
+        public long? OrderId { get; set; }
+        public int Quantity { get; set; }
+        public decimal? UnitPrice { get; set; }
+      
+        public string ServingType { get; set; }
+        public decimal? Amount { get; set; }
+        public  Order CurrentOrder { get; set; }
+
     }
 }

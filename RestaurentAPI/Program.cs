@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.OData;
 using RestaurentAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +10,10 @@ builder.Services.ConfigureCors();
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureSqliteContext(builder.Configuration);
 builder.Services.ConfigureRepositoryWrapper();
-
 builder.Services.AddControllers();
+builder.Services.AddControllers().AddOData(options =>
+    options.Select().Filter().Count().OrderBy().Expand());
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,6 +30,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 

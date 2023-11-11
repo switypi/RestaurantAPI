@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(RestaurentDbContext))]
-    partial class RestaurentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230625051745_25june2023 -3")]
+    partial class _25june20233
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -277,7 +280,8 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.HasIndex("TableId");
+                    b.HasIndex("TableId")
+                        .IsUnique();
 
                     b.ToTable("Orders");
                 });
@@ -288,13 +292,13 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal?>("Amount")
+                    b.Property<decimal>("Amount")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("MenuId")
+                    b.Property<int>("MenuId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("OrderId")
+                    b.Property<long>("OrderId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
@@ -303,7 +307,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("ServingType")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal?>("UnitPrice")
+                    b.Property<decimal>("UnitPrice")
                         .HasColumnType("TEXT");
 
                     b.HasKey("OrderDetailId");
@@ -470,9 +474,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Entities.Bill", b =>
                 {
-                    b.HasOne("Infrastructure.Entities.Order", null)
+                    b.HasOne("Infrastructure.Entities.Order", "Orders")
                         .WithMany("CurrentBills")
                         .HasForeignKey("OrderId");
+
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Booking", b =>
@@ -512,8 +518,8 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("CustomerID");
 
                     b.HasOne("Infrastructure.Entities.Table", "CurrentTable")
-                        .WithMany()
-                        .HasForeignKey("TableId");
+                        .WithOne("Orders")
+                        .HasForeignKey("Infrastructure.Entities.Order", "TableId");
 
                     b.Navigation("CurrentCustomer");
 
@@ -522,9 +528,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Entities.OrderDetails", b =>
                 {
-                    b.HasOne("Infrastructure.Entities.Order", null)
+                    b.HasOne("Infrastructure.Entities.Order", "CurrentOrder")
                         .WithMany("CurrentOrderDetails")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CurrentOrder");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Table", b =>
@@ -546,6 +556,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("CurrentBills");
 
                     b.Navigation("CurrentOrderDetails");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.Table", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Waiter", b =>

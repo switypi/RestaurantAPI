@@ -22,6 +22,6 @@ namespace Infrastructure.Entities
         public string Tag { get; set; }
         public string TableType { get; set; }
 
-        public virtual Order Orders { get; set; }
+        //public virtual Order Orders { get; set; }
     }
 }

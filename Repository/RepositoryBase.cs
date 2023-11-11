@@ -1,5 +1,6 @@
 ﻿
 using Infrastructure;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,5 +25,13 @@ namespace Repository
         public void Update(T entity) => RepositoryContext.Set<T>().Update(entity);
         public void Delete(T entity) => RepositoryContext.Set<T>().Remove(entity);
         public void DeleteRange(List<T> entity) => RepositoryContext.Set<T>().RemoveRange(entity);
+
+        public DbContext GetDbContext
+        {
+            get
+            {
+                return RepositoryContext;
+            }
+        }
     }
 }

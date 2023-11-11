@@ -24,7 +24,7 @@ namespace Infrastructure.Entities
         public double BaseLineTotal { get; set; } 
         public string BillNumber { get; set; }  
 
-        public virtual Order Orders { get; set; }
+        public  Order Orders { get; set; }
         
     }
 }

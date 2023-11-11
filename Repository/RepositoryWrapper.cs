@@ -21,6 +21,8 @@ namespace Repository
         private IWaiterRepository waiterRepository;
         private IOrderRepository orderRepository;
         private IMenuRepository menuRepository;
+        private IOrderDetailRepository orderDetailRepository;
+        private IBillRepository billRepository;
 
 
         public RepositoryWrapper(RestaurentDbContext repositoryContext)
@@ -110,6 +112,30 @@ namespace Repository
                     orderRepository = new OrderRepository(_repoContext);
                 }
                 return orderRepository;
+            }
+        }
+
+        public IOrderDetailRepository OrderDetailRepo
+        {
+            get
+            {
+                if (orderDetailRepository == null)
+                {
+                    orderDetailRepository = new OrderDetailRepository(_repoContext);
+                }
+                return orderDetailRepository;
+            }
+        }
+
+        public IBillRepository BillRepo
+        {
+            get
+            {
+                if (billRepository == null)
+                {
+                    billRepository =new  BillRepository(_repoContext);
+                }
+                return billRepository;
             }
         }
     }

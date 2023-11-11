@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Repository;
 
 namespace RestaurentAPI.Controllers
@@ -14,7 +15,7 @@ namespace RestaurentAPI.Controllers
         {
             _repository = repository;
         }
-
+        [EnableQuery]
         [HttpGet(Name = "GetMenuItems")]
         public IEnumerable<Menu> MenuItems()
         {

@@ -17,6 +17,10 @@ namespace Repository
         IMenuRepository MenuRepo { get; }
         IOrderRepository OrderRepo { get; }
 
+        IOrderDetailRepository OrderDetailRepo { get; }
+
+        IBillRepository BillRepo { get; }
+
         void Save();
     }
 }
